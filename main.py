@@ -15,11 +15,32 @@ def count_letters_in_string(string):
         letter_count[letter] += 1
     return letter_count
 
+def sort_on(d):
+    return d["num"]
+
+def dictionary_sort(dictionary):
+    sorted_result = []
+    for item in dictionary:
+        sorted_result.append({"character": item, "num": dictionary[item]})
+    sorted_result.sort(reverse=True, key=sort_on)
+    return sorted_result
+
 def main():
-    frankenstein = read_contents_from_file("books/frankenstein.txt")
+    book_path = "books/frankenstein.txt"
+    frankenstein = read_contents_from_file(book_path)
     frankenstein_word_count = count_words_in_string(frankenstein)
     frankenstein_letter_count = count_letters_in_string(frankenstein)
-    print(f"{frankenstein_word_count} words found in the document.")
-    print(frankenstein_letter_count)
+    frankenstein_letter_count_sorted = dictionary_sort(frankenstein_letter_count)
+
+    print(f"--- Begin report of {book_path} ---")
+    print(f"{frankenstein_word_count} words found in the document")
+    print()
+
+    for item in frankenstein_letter_count_sorted:
+        if not item["character"].isalpha():
+            continue
+        print(f"The '{item['character']}' character was found {item['num']} times.")
+
+    print("--- End report ---")
 
 main()
